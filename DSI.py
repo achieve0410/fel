@@ -1,31 +1,83 @@
 from scipy import stats
 import csv
+import numpy as np
+from sklearn import linear_model
+from sklearn.metrics import mean_squared_error, r2_score
 
 ## Empty array for save dataset
-data = []
+temp_header = []
+temp_data = []
+real_data = np.array([])
+train_data = np.array([])
+test_data = np.array([])
 
-## open csv file and save dataset
-f = open('cluster_origin_2.csv', 'r', encoding='utf-8')
-csvReader = csv.reader(f)
+line_counter = 0
 
-for row in csvReader:
-    data.append(row)
+with open('driving_score_180ea.csv') as f:
+    while 1:
+        data = f.readline().replace("\n","")
+        # print(data)
+        if not data: break
+        if line_counter == 0:
+            temp_header = data.split(",") # 
+        else:
+            temp_data.append(data.split(","))
+        line_counter = line_counter + 1
+        
+print(type(temp_header))
+print(temp_header)
 
-f.close()
+print(temp_data)
 
 
 
-print( len(data) )
 
-# for line in rdr:
-#     print(line)
+
+
+
+
+
+
+# ## open csv file and save dataset
+# f = open('driving_score_180ea.csv', 'r', encoding='utf-8')
+# csvReader = csv.reader(f)
+
+# for row in csvReader:
+#     temp_data.append(row)
+
 # f.close()
 
-# x = [5.05, 6.75, 3.21, 2.66]
-# y = [1.65, 26.5, -5.93, 7.96]
 
-# gradient, intercept, r_value, p_value, std_err = stats.linregress(x,y)
-# print( "Gradient and intercept" , gradient, intercept )
 
-# print( "R-squared", r_value**2 )
-# print( "p-value", p_value )
+# for row in range(1, len(temp_data)):
+#     np.append(real_data, temp_data[row])
+
+# print(temp_data[1])
+
+# print( real_data )
+
+# for row in range(1, len(data)):
+#    for col in range(0, len(data[0])-1):
+#        train_data.append(data[row][col])
+#        if( (col+1)%3 == 0):
+#            test_data.append(data[row][col+1])
+#            continue
+
+# np.reshape(train_data, (-1, 1))
+# np.reshape(test_data, (1, -1))
+
+# regr = linear_model.LinearRegression()
+
+# regr.fit(train_data, test_data)
+
+# y_pred = regr.predict(train_data)
+
+# print('Coef. : \n', regr.coef_)
+# print("MSE : %.2f" % mean_squared_error(test_data, y_pred))
+
+
+#print( "train_data : " , train_data )
+#print( "test_data : " , test_data )
+
+#print( len(train_data) )
+#print( len(test_data) )
