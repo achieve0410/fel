@@ -1,83 +1,81 @@
-from scipy import stats
 import csv
 import numpy as np
+import pandas as pd
+import math
+import statsmodels.api as sm
+from sklearn.linear_model import LinearRegression
+from statsmodels.api import OLS
+from statsmodels.regression.linear_model import RegressionResults
+from scipy import stats
 from sklearn import linear_model
-from sklearn.metrics import mean_squared_error, r2_score
 
-## Empty array for save dataset
-temp_header = []
+
+## Empty list for save dataset
+header = []
 temp_data = []
-real_data = np.array([])
-train_data = np.array([])
-test_data = np.array([])
 
+## variable for count # of lines
 line_counter = 0
 
+## read data from csv file
 with open('driving_score_180ea.csv') as f:
     while 1:
         data = f.readline().replace("\n","")
         # print(data)
         if not data: break
         if line_counter == 0:
-            temp_header = data.split(",") # 
+            header = data.split(",") # 
         else:
             temp_data.append(data.split(","))
         line_counter = line_counter + 1
-        
-print(type(temp_header))
-print(temp_header)
 
-print(temp_data)
+## set train & test data
+x_train = np.zeros( [len(temp_data), len(temp_data[0])-1] )
+y_train = np.zeros( [len(temp_data), 1] )
+x_test = np.zeros( [len(temp_data), len(temp_data[0])-1] )
+y_test = np.zeros( [len(temp_data), 1] )
 
+pred = np.zeros( [len(temp_data), 1] )
+loss = np.zeros( [len(temp_data), 1] )
 
+## variables for array
+line_counter = 0
+compo_counter = 0
 
+## temp_data to train/test data ( list (1 dim.) -> array (2 dim.) )
+while 1:
+    data = temp_data
+    if len(data)<=line_counter: break
 
+    if compo_counter == 3:
+        y_train[line_counter][0] = data[line_counter][compo_counter]
+        line_counter += 1
+        compo_counter = 0
 
+    else :
+        x_train[line_counter][compo_counter] = data[line_counter][compo_counter]
+        compo_counter += 1
 
+## reshape datasets
+np.reshape(x_train, (-1, 1))
+np.reshape(y_train, (1, -1))
 
+## create and summary model
+model = OLS(y_train, x_train)
+y_pred = model.fit()
+print(y_pred.summary())
 
+## predict the answer
+pred = y_pred.predict(x_train)
+print(pred)
 
+## calculate RSME
+line_counter = 0
+while 1:
+    if len(data)<=line_counter: break
 
-# ## open csv file and save dataset
-# f = open('driving_score_180ea.csv', 'r', encoding='utf-8')
-# csvReader = csv.reader(f)
+    loss[line_counter][0] = abs( y_train[line_counter][0]-pred[line_counter] )
+    line_counter += 1
 
-# for row in csvReader:
-#     temp_data.append(row)
-
-# f.close()
-
-
-
-# for row in range(1, len(temp_data)):
-#     np.append(real_data, temp_data[row])
-
-# print(temp_data[1])
-
-# print( real_data )
-
-# for row in range(1, len(data)):
-#    for col in range(0, len(data[0])-1):
-#        train_data.append(data[row][col])
-#        if( (col+1)%3 == 0):
-#            test_data.append(data[row][col+1])
-#            continue
-
-# np.reshape(train_data, (-1, 1))
-# np.reshape(test_data, (1, -1))
-
-# regr = linear_model.LinearRegression()
-
-# regr.fit(train_data, test_data)
-
-# y_pred = regr.predict(train_data)
-
-# print('Coef. : \n', regr.coef_)
-# print("MSE : %.2f" % mean_squared_error(test_data, y_pred))
-
-
-#print( "train_data : " , train_data )
-#print( "test_data : " , test_data )
-
-#print( len(train_data) )
-#print( len(test_data) )
+RSME = math.sqrt( pow(sum(loss),2) )/len(y_train)
+print(RSME)
