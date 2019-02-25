@@ -1,14 +1,13 @@
 import csv
+import math
 import numpy as np
 import pandas as pd
-import math
 import statsmodels.api as sm
+from scipy import stats
+from sklearn import linear_model
 from sklearn.linear_model import LinearRegression
 from statsmodels.api import OLS
 from statsmodels.regression.linear_model import RegressionResults
-from scipy import stats
-from sklearn import linear_model
-
 
 ## Empty list for save dataset
 header = []
