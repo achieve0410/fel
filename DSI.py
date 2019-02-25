@@ -1,13 +1,7 @@
 import csv
 import math
 import numpy as np
-import pandas as pd
-import statsmodels.api as sm
-from scipy import stats
-from sklearn import linear_model
-from sklearn.linear_model import LinearRegression
 from statsmodels.api import OLS
-from statsmodels.regression.linear_model import RegressionResults
 
 ## Empty list for save dataset
 header = []
@@ -77,4 +71,4 @@ while 1:
     line_counter += 1
 
 RSME = math.sqrt( pow(sum(loss),2) )/len(y_train)
-print(RSME)
+print("RSME : ", RSME)
