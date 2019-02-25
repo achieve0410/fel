@@ -60,7 +60,6 @@ print(y_pred.summary())
 
 ## predict the answer
 pred = y_pred.predict(x_train)
-print(pred)
 
 ## calculate RSME
 line_counter = 0

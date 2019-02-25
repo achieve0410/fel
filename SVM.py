@@ -60,8 +60,6 @@ model.fit(x_train, y_train.ravel())
 ## predict n print the estimated values
 y_pred = model.predict(x_train)
 
-print(y_pred)
-
 ## calculate RSME
 line_counter = 0
 while 1:
