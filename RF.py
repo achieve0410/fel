@@ -68,5 +68,5 @@ while 1:
     loss[line_counter][0] = abs( y_train[line_counter][0]-y_pred[line_counter] )
     line_counter += 1
 
-RSME = math.sqrt( pow(sum(loss),2) )/len(y_train)
+RSME = math.sqrt( sum( pow(loss, 2) ) / len(y_train) )
 print("RSME : ", RSME)
