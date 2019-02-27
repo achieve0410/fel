@@ -4,11 +4,11 @@
 ## Information about these files
 > .csv files
   - driving_score_180ea.csv
-    + Search by google images
+    + Search by google images, 182ea
   - driving_score_new.csv
-    + Search by google images
+    + Search by google images, 12ea
   - Tmap_data.csv
-    + Data given by Professor
+    + Data given by Professor, 15ea
     
 > .py files
   - DSI.py
