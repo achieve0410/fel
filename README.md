@@ -1,6 +1,6 @@
 # This is "R to Py" Repo
 > Driving_score_estimation_project (18. 12. 26 ~)  
-  + Related Paper : [A Genetic Programming Approach for Driving Score Calculation in the Context of Intelligent Transportation Systems](#https://ieeexplore.ieee.org/document/8410904)
+  + Related Paper : [A Genetic Programming Approach for Driving Score Calculation in the Context of Intelligent Transportation Systems](https://ieeexplore.ieee.org/document/8410904)
 
 ## Table of Contents
 - [Information about these files](#information-about-these-files)  
