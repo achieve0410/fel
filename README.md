@@ -2,7 +2,7 @@
 > Driving_score_estimation_project (18. 12. 26 ~)
 
 ## Table of Contents
-- [Information about these files](#Information-about-thest-files)
+- [Information about these files](#information-about-thest-files)
 
 ### Information about these files
 > .csv files
