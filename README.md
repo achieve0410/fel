@@ -2,18 +2,20 @@
 > Driving_score_estimation_project (18. 12. 26 ~)
 
 ## Table of Contents
-- [Information about these files](#information-about-these-files)
+- [Information about these files](#information-about-these-files)  
+  + [.csv files](#.csv-files)  
+  + [.py files](#.py-files)
 
 ### Information about these files
-> .csv files
-  - driving_score_180ea.csv
+##### .csv files
+  - `driving_score_180ea.csv`
     + Search by google images, 182ea
-  - driving_score_new.csv
+  - `driving_score_new.csv`
     + Search by google images, 12ea
-  - Tmap_data.csv
+  - `Tmap_data.csv`
     + Data given by Professor, 15ea
     
-> .py files
+##### .py files
   - `DSI.py`
     + Safety Index model ( = Linear model )
       * Input data : .csv file ( compliance, acceleration, deceleration )
