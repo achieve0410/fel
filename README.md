@@ -3,8 +3,8 @@
 
 ## Table of Contents
 - [Information about these files](#information-about-these-files)  
-  + [.csv files](#.csv-files)  
-  + [.py files](#.py-files)
+  + [.csv files](#csv-files)  
+  + [.py files](#py-files)
 
 ### Information about these files
 ##### .csv files
