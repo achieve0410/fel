@@ -11,15 +11,15 @@
     + Data given by Professor, 15ea
     
 > .py files
-  - DSI.py
+  - `DSI.py`
     + Safety Index model ( = Linear model )
       * Input data : .csv file ( compliance, acceleration, deceleration )
       * Output : RSME ( Root Square Mean Error )
-  - RF.py
+  - `RF.py`
     + Random Forest model
       * Input data : .csv file ( compliance, acceleration, deceleration )
       * Output : RSME ( Root Square Mean Error )
-  - SVM.py
+  - `SVM.py`
     + Support Vector Machine
       * Input data : .csv file ( compliance, acceleration, deceleration )
       * Output : RSME ( Root Square Mean Error )
