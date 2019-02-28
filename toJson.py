@@ -1,8 +1,6 @@
 import csv
 import json
 from collections import OrderedDict
-import math
-import numpy as np
 
 ## Empty list for save dataset
 header = []
@@ -48,10 +46,3 @@ print(json.dumps(file_data, ensure_ascii=False, indent="\t"))
 ## save json file
 with open('words.json', 'w', encoding="utf-8") as make_file:
     json.dump(file_data, make_file, ensure_ascii=False, indent="\t")
-
-
-#file_data["name"] = "COMPUTER"
-#file_data["language"] = "kor"
-#file_data["words"] = {'ram':'RAM', 'process':'PROCESS', 'processor':'PROCESSOR', 'cpu':'CPU'}
-#file_data["number"] = 4
-
