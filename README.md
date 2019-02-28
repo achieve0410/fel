@@ -29,3 +29,7 @@
     + Support Vector Machine
       * Input data : .csv file ( compliance, acceleration, deceleration, result )
       * Output : RSME ( Root Square Mean Error )
+  - `toJson.py`
+    + Make .json file from csv file(or user data)
+      * Input data : .csv file ( compliance, acceleration, deceleration, result )
+      * Output : .json file ( data, # of data )
