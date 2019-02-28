@@ -19,13 +19,13 @@
 ##### .py files
   - `DSI.py`
     + Safety Index model ( = Linear model )
-      * Input data : .csv file ( compliance, acceleration, deceleration, result )
+      * Input data : .csv file #####( compliance, acceleration, deceleration, result )
       * Output : RSME ( Root Square Mean Error )
   - `RF.py`
     + Random Forest model
-      * Input data : .csv file ( compliance, acceleration, deceleration, result )
+      * Input data : .csv file #####( compliance, acceleration, deceleration, result )
       * Output : RSME ( Root Square Mean Error )
   - `SVM.py`
     + Support Vector Machine
-      * Input data : .csv file ( compliance, acceleration, deceleration, result )
+      * Input data : .csv file #####( compliance, acceleration, deceleration, result )
       * Output : RSME ( Root Square Mean Error )
