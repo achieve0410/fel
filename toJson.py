@@ -23,26 +23,29 @@ with open('driving_score_180ea.csv') as f:
 
 ## Variable for making json file
 file_data = OrderedDict()
+file_data["header"] = {}
+file_data["data"] = {}
+
 line_counter = 0
 
 ## construct json file
 while 1:
     data = temp_data
-    if (line_counter>=len(temp_data)):
+    if (line_counter>=len(data)):
         break
     else:
-        file_data["%d" % line_counter] = { 'compliance': '%d' % int(temp_data[line_counter][0]),
-                                        'acceleration': '%d' % int(temp_data[line_counter][1]),
-                                        'deceleration': '%d' % int(temp_data[line_counter][2]),
-                                        'result': '%d' % int(temp_data[line_counter][3])}
+        file_data["data"]["%d" % line_counter] = { 'compliance': '%d' % int(data[line_counter][0]),
+                                        'acceleration': '%d' % int(data[line_counter][1]),
+                                        'deceleration': '%d' % int(data[line_counter][2]),
+                                        'result': '%d' % int(data[line_counter][3])}
     
         line_counter = line_counter + 1    
 
-file_data["number"] = line_counter
+file_data["header"]["number"] = line_counter
 
 ## print json file
 print(json.dumps(file_data, ensure_ascii=False, indent="\t"))
 
 ## save json file
-with open('words.json', 'w', encoding="utf-8") as make_file:
+with open('test.json', 'w', encoding="utf-8") as make_file:
     json.dump(file_data, make_file, ensure_ascii=False, indent="\t")
