@@ -1,7 +1,7 @@
 import json
 import math
 import numpy as np
-from statsmodels.api import OLS
+from sklearn.ensemble import RandomForestClassifier
 
 ## int -> string (transfer integer to string for key)
 def first_key_trans(line_counter):
@@ -63,21 +63,19 @@ with open('test.json') as json_file:
 np.reshape(x_train, (-1, 1))
 np.reshape(y_train, (-1, 1))
 
-## create and summary model
-model = OLS(y_train, x_train)
-y_pred = model.fit()
-#print(y_pred.summary())
+## create RF model
+model = RandomForestClassifier(criterion='entropy', n_estimators=10, n_jobs=2, random_state=1)
+model.fit(x_train, y_train.ravel())
 
-## predict the answer
-pred = y_pred.predict(x_train)
+## predict n print the estimated values
+y_pred = model.predict(x_train)
 
 ## calculate RSME
 line_counter = 0
 while 1:
-    data = json_data["data"]
     if len(data)<=line_counter: break
 
-    loss[line_counter][0] = abs( y_train[line_counter][0]-int(pred[line_counter]) )
+    loss[line_counter][0] = abs( y_train[line_counter][0]-y_pred[line_counter] )
     line_counter += 1
 
 RSME = math.sqrt( sum( pow(loss, 2) ) / len(y_train) )

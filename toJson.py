@@ -19,7 +19,7 @@ with open('driving_score_180ea.csv') as f:
             header = data.split(",")
         else:
             temp_data.append(data.split(","))
-        line_counter = line_counter + 1
+        line_counter += 1
 
 ## Variable for making json file
 file_data = OrderedDict()
@@ -39,7 +39,7 @@ while 1:
                                         'deceleration': '%d' % int(data[line_counter][2]),
                                         'result': '%d' % int(data[line_counter][3])}
     
-        line_counter = line_counter + 1    
+        line_counter += 1  
 
 file_data["header"]["number"] = line_counter
 
