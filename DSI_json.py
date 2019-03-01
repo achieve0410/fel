@@ -4,91 +4,79 @@ import json
 import numpy as np
 from statsmodels.api import OLS
 
-## Empty list for save dataset
-header = []
-temp_data = []
+## int -> string (transfer integer to string for key)
+def first_key_trans(line_counter):
+    return_string = str(line_counter)
+    return return_string
 
-## variable for count # of lines
+## int -> string (transfer integer to string for key)
+def second_key_trans(compo_counter):
+    if compo_counter==0:
+        return_string = 'compliance'
+    elif compo_counter==1:
+        return_string = 'acceleration'
+    elif compo_counter==2:
+        return_string = 'deceleration'
+    else:
+        return_string = 'result'
+    
+    return return_string
+
+## variables for array
 line_counter = 0
+compo_counter = 0
 
 ## parsing data from json file
 with open('words.json') as json_file:
 
     json_data = json.load(json_file)
 
-    ## get data which key value = 0
-    json_string = json_data["0"]["compliance"] ## 5
-    json_string = json_data["0"] ## { 'compliance': '5', 'acceleration': '5', 'deceleration': '5', 'result': '100' }
-    print(json_string)
+    ## set train & test data
+    x_train = np.zeros( [len(json_data)-1, len(json_data["0"])-1] )
+    y_train = np.zeros( [len(json_data)-1, 1] )
+    x_test = np.zeros( [len(json_data)-1, len(json_data["0"])-1] )
+    y_test = np.zeros( [len(json_data)-1, 1] )
 
+    pred = np.zeros( [len(json_data)-1, 1] )
+    loss = np.zeros( [len(json_data)-1, 1] )
 
+    ## json_data to train/test data ( list (1 dim.) -> array (2 dim.) )
+    while 1:
+        data = json_data
+        if len(data)-1<=line_counter: break
 
+        ## find key for parsing data from json file
+        first_key = first_key_trans(line_counter)
+        second_key = second_key_trans(compo_counter)
 
+        if compo_counter == 3:
+            y_train[line_counter][0] = data[first_key][second_key]
+            line_counter += 1
+            compo_counter = 0
 
+        else :
+            x_train[line_counter][compo_counter] = data[first_key][second_key]
+            compo_counter += 1
 
+## reshape datasets
+np.reshape(x_train, (-1, 1))
+np.reshape(y_train, (-1, 1))
 
+## create and summary model
+model = OLS(y_train, x_train)
+y_pred = model.fit()
+#print(y_pred.summary())
 
+## predict the answer
+pred = y_pred.predict(x_train)
 
+## calculate RSME
+line_counter = 0
+while 1:
+    if len(json_data)-1<=line_counter: break
 
+    loss[line_counter][0] = abs( y_train[line_counter][0]-int(pred[line_counter]) )
+    line_counter += 1
 
-# ## read data from csv file
-# with open('driving_score_180ea.csv') as f:
-#     while 1:
-#         data = f.readline().replace("\n","")
-#         # print(data)
-#         if not data: break
-#         if line_counter == 0:
-#             header = data.split(",") # 
-#         else:
-#             temp_data.append(data.split(","))
-#         line_counter = line_counter + 1
-
-# ## set train & test data
-# x_train = np.zeros( [len(temp_data), len(temp_data[0])-1] )
-# y_train = np.zeros( [len(temp_data), 1] )
-# x_test = np.zeros( [len(temp_data), len(temp_data[0])-1] )
-# y_test = np.zeros( [len(temp_data), 1] )
-
-# pred = np.zeros( [len(temp_data), 1] )
-# loss = np.zeros( [len(temp_data), 1] )
-
-# ## variables for array
-# line_counter = 0
-# compo_counter = 0
-
-# ## temp_data to train/test data ( list (1 dim.) -> array (2 dim.) )
-# while 1:
-#     data = temp_data
-#     if len(data)<=line_counter: break
-
-#     if compo_counter == 3:
-#         y_train[line_counter][0] = data[line_counter][compo_counter]
-#         line_counter += 1
-#         compo_counter = 0
-
-#     else :
-#         x_train[line_counter][compo_counter] = data[line_counter][compo_counter]
-#         compo_counter += 1
-
-# ## reshape datasets
-# np.reshape(x_train, (-1, 1))
-# np.reshape(y_train, (1, -1))
-
-# ## create and summary model
-# model = OLS(y_train, x_train)
-# y_pred = model.fit()
-# #print(y_pred.summary())
-
-# ## predict the answer
-# pred = y_pred.predict(x_train)
-
-# ## calculate RSME
-# line_counter = 0
-# while 1:
-#     if len(data)<=line_counter: break
-
-#     loss[line_counter][0] = abs( y_train[line_counter][0]-int(pred[line_counter]) )
-#     line_counter += 1
-
-# RSME = math.sqrt( sum( pow(loss, 2) ) / len(y_train) )
-# print("RSME : ", RSME)
+RSME = math.sqrt( sum( pow(loss, 2) ) / len(y_train) )
+print("RSME : ", RSME)

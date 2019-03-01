@@ -49,6 +49,7 @@ while 1:
         x_train[line_counter][compo_counter] = data[line_counter][compo_counter]
         compo_counter += 1
 
+
 ## reshape datasets
 np.reshape(x_train, (-1, 1))
 np.reshape(y_train, (1, -1))
