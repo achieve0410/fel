@@ -21,13 +21,25 @@
     + Safety Index model ( = Linear model )
       * Input data : .csv file ( compliance, acceleration, deceleration, result )
       * Output : RSME ( Root Square Mean Error )
+  - `DSI_json.py`
+    + Safety Index model ( = Linear model )
+      * Input data : .json file ( header: { number: }, data: { compliance: , acceleration: , deceleration: , result: } )
+      * Output : RSME ( Root Square Mean Error )
   - `RF.py`
     + Random Forest model
       * Input data : .csv file ( compliance, acceleration, deceleration, result )
       * Output : RSME ( Root Square Mean Error )
+  - `RF_json.py`
+    + Random Forest model
+      * Input data : .json file ( header: { number: }, data: { compliance: , acceleration: , deceleration: , result: } )
+      * Output : RSME ( Root Square Mean Error )
   - `SVM.py`
     + Support Vector Machine
       * Input data : .csv file ( compliance, acceleration, deceleration, result )
+      * Output : RSME ( Root Square Mean Error )
+  - `SVM_json.py`
+    + Support Vector Machine
+      * Input data : .json file ( header: { number: }, data: { compliance: , acceleration: , deceleration: , result: } )
       * Output : RSME ( Root Square Mean Error )
   - `toJson.py`
     + Make .json file from csv file(or user data)
