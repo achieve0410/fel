@@ -33,7 +33,7 @@
       * Output : RSME ( Root Square Mean Error )
   - `DSI_sql.py`
     + Safety Index model ( = Linear model )
-      * Input data : connect with mysql db
+      * Input data : connection with mysql db
       * Output : RSME ( Root Square Mean Error )
   - `RF.py`
     + Random Forest model
@@ -45,7 +45,7 @@
       * Output : RSME ( Root Square Mean Error )
   - `RF_sql.py`
     + Random Forest model
-      * Input data : connect with mysql db
+      * Input data : connection with mysql db
       * Output : RSME ( Root Square Mean Error )
   - `SVM.py`
     + Support Vector Machine
@@ -57,7 +57,7 @@
       * Output : RSME ( Root Square Mean Error )
   - `SVM_sql.py`
     + Support Vector Machine
-      * Input data : connect with mysql db
+      * Input data : connection with mysql db
       * Output : RSME ( Root Square Mean Error )
   - `toJson.py`
     + Make .json file from csv file(or user data)
@@ -65,5 +65,5 @@
       * Output : .json file ( data, # of data )
   - `pymyquery.py`
     + Connecting mysql and python Testing code
-      * Input data : connect with mysql db
+      * Input data : connection with mysql db
       * Output : db data
