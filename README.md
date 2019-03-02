@@ -31,6 +31,10 @@
     + Safety Index model ( = Linear model )
       * Input data : .json file ( header: { number: }, data: { compliance: , acceleration: , deceleration: , result: } )
       * Output : RSME ( Root Square Mean Error )
+  - `DSI_sql.py`
+    + Safety Index model ( = Linear model )
+      * Input data : connect with mysql db
+      * Output : RSME ( Root Square Mean Error )
   - `RF.py`
     + Random Forest model
       * Input data : .csv file ( compliance, acceleration, deceleration, result )
@@ -38,6 +42,10 @@
   - `RF_json.py`
     + Random Forest model
       * Input data : .json file ( header: { number: }, data: { compliance: , acceleration: , deceleration: , result: } )
+      * Output : RSME ( Root Square Mean Error )
+  - `RF_sql.py`
+    + Random Forest model
+      * Input data : connect with mysql db
       * Output : RSME ( Root Square Mean Error )
   - `SVM.py`
     + Support Vector Machine
@@ -47,7 +55,15 @@
     + Support Vector Machine
       * Input data : .json file ( header: { number: }, data: { compliance: , acceleration: , deceleration: , result: } )
       * Output : RSME ( Root Square Mean Error )
+  - `SVM_sql.py`
+    + Support Vector Machine
+      * Input data : connect with mysql db
+      * Output : RSME ( Root Square Mean Error )
   - `toJson.py`
     + Make .json file from csv file(or user data)
       * Input data : .csv file ( compliance, acceleration, deceleration, result )
       * Output : .json file ( data, # of data )
+  - `pymyquery.py`
+    + Connecting mysql and python Testing code
+      * Input data : connect with mysql db
+      * Output : db data
