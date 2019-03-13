@@ -82,3 +82,5 @@ while 1:
 
 RSME = math.sqrt( sum( pow(loss, 2) ) / len(y_train) )
 print("RSME : ", RSME)
+
+

@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 
 ## connect to MySQL
-conn = pymysql.Connect(host='192.168.0.5', user='wh', password='root',
+conn = pymysql.Connect(host='172.17.0.3', user='wh', password='root',
                     db='driving_score', charset='utf8')
 
 ## Create Cursor
@@ -71,3 +71,4 @@ while 1:
 
 RSME = math.sqrt( sum( pow(loss, 2) ) / len(y_train) )
 print("RSME : ", RSME)
+
