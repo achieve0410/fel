@@ -32,7 +32,7 @@ temp_data = []
 line_counter = 0
 
 ## read data from csv file
-with open('test_data.csv') as f:
+with open('classi.csv') as f:
     while 1:
         data = f.readline().replace("\n","")
         # print(data)
@@ -98,5 +98,5 @@ while 1:
 
 ## sort distance's index n predict unknown's group
 idx = sorted(range(len(distance)), key=lambda k: distance[k])
-group = vote_func(idx, result_feature, 11)
+group = vote_func(idx, result_feature, 3)
 print(group)
