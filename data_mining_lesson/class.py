@@ -2,8 +2,13 @@ from numpy import *
 import operator
 import matplotlib.pyplot as plt
 
+#########################################################################################
+
 def classify0(inx, dataset, labels, k):
     datasetSize = dataset.shape[0]
+    print("inx", inx)
+    print("datasetSize", datasetSize)
+    print("dataset", dataset)
     diffMat = tile(inx, (datasetSize,1)) - dataset
     sqDiffMat = diffMat**2
     sqDistances = sqDiffMat.sum(axis=1)
@@ -17,18 +22,42 @@ def classify0(inx, dataset, labels, k):
     sortedClassCount = sorted(classCount.items(), key=operator.itemgetter(1), reverse=True) ## .items : dictionary를 순서쌍으로 바꿔줌
     return sortedClassCount[0][0]
 
+#########################################################################################
+
 def createDataset():
     group = array([[3, 104], [2, 100], [1, 81], [101, 10], [99, 5], [98, 2]])
     labels = ['R', 'R', 'R', 'A', 'A', 'A']
     return group, labels
-group, labels = createDataset()
-print(group, labels)
 
-## classify0 사용방법
-#print(classify0(([18,90]), group, labels, 3))
+#group, labels = createDataset()
+#print(group, labels)
 
 #########################################################################################
 
+def file2matrix(filename):
+    fr = open(filename)
+    arrayOLines = fr.readlines()
+    numberOfLines = len(arrayOLines)            #get the number of lines in the file
+    returnMat = zeros((numberOfLines,3))        #prepare matrix to return
+    classLabelVector = []                       #prepare labels return
+    index = 0
+    for line in arrayOLines:
+        line = line.strip()
+        listFromLine = line.split(',')
+        returnMat[index,:] = listFromLine[0:3]
+        classLabelVector.append(int(listFromLine[-1]))
+        index += 1
+    return returnMat,classLabelVector
+
+group, labels = file2matrix("classi.csv")
+print(group, labels)
+
+#########################################################################################
+
+## classify0 사용방법
+print(classify0(([90,85]), group[:,0:2], labels, 3))
+
+#########################################################################################
 
 
 #########################################################################################
@@ -57,23 +86,3 @@ print(group, labels)
 # plt.show()
 
 #########################################################################################
-
-def file2matrix(filename):
-    fr = open(filename)
-    arrayOLines = fr.readlines()
-    numberOfLines = len(arrayOLines)            #get the number of lines in the file
-    returnMat = zeros((numberOfLines,3))        #prepare matrix to return
-    classLabelVector = []                       #prepare labels return
-    index = 0
-    for line in arrayOLines:
-        line = line.strip()
-        listFromLine = line.split(',')
-        returnMat[index,:] = listFromLine[0:3]
-        classLabelVector.append(int(listFromLine[-1]))
-        index += 1
-    return returnMat,classLabelVector
-
-#########################################################################################
-
-readcsv = file2matrix("classi.csv")
-print("readcsv", readcsv)
