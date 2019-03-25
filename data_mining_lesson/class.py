@@ -1,14 +1,13 @@
 from numpy import *
 import operator
+import matplotlib
+import os
 import matplotlib.pyplot as plt
 
 #########################################################################################
 
 def classify0(inx, dataset, labels, k):
     datasetSize = dataset.shape[0]
-    print("inx", inx)
-    print("datasetSize", datasetSize)
-    print("dataset", dataset)
     diffMat = tile(inx, (datasetSize,1)) - dataset
     sqDiffMat = diffMat**2
     sqDistances = sqDiffMat.sum(axis=1)
@@ -38,24 +37,24 @@ def file2matrix(filename):
     fr = open(filename)
     arrayOLines = fr.readlines()
     numberOfLines = len(arrayOLines)            #get the number of lines in the file
-    returnMat = zeros((numberOfLines,3))        #prepare matrix to return
+    returnMat = zeros((numberOfLines,2))        #prepare matrix to return
     classLabelVector = []                       #prepare labels return
     index = 0
     for line in arrayOLines:
         line = line.strip()
         listFromLine = line.split(',')
-        returnMat[index,:] = listFromLine[0:3]
+        returnMat[index,:] = listFromLine[0:2]
         classLabelVector.append(int(listFromLine[-1]))
         index += 1
     return returnMat,classLabelVector
 
 group, labels = file2matrix("classi.csv")
-print(group, labels)
+#print("group\n", group, "\nlabels", labels)
 
 #########################################################################################
 
 ## classify0 사용방법
-print(classify0(([90,85]), group[:,0:2], labels, 3))
+#print("\nclassify result", classify0(([90,85]), group, labels, 3))
 
 #########################################################################################
 
@@ -84,5 +83,130 @@ print(classify0(([90,85]), group[:,0:2], labels, 3))
 # ## 새로운 점은 Red
 # ax.plot([18],[90], 'ro')
 # plt.show()
+
+#########################################################################################
+
+def file2matrix_2(filename):
+    love_dictionary={'largeDoses':3, 'smallDoses':2, 'didntLike':1}
+    fr = open(filename)
+    arrayOLines = fr.readlines()
+    numberOfLines = len(arrayOLines)            #get the number of lines in the file
+    returnMat = zeros((numberOfLines,3))        #prepare matrix to return
+    classLabelVector = []                       #prepare labels return   
+    index = 0
+    for line in arrayOLines:
+        line = line.strip()
+        listFromLine = line.split('\t')
+        returnMat[index,:] = listFromLine[0:3]
+        if(listFromLine[-1].isdigit()):
+            classLabelVector.append(int(listFromLine[-1]))
+        else:
+            classLabelVector.append(love_dictionary.get(listFromLine[-1]))
+        index += 1
+    return returnMat,classLabelVector
+
+datingMat, datingLabels = file2matrix_2("datingTestSet.txt")
+
+#print("datingMat", datingMat, "datingLabels", datingLabels)
+
+#########################################################################################
+
+# fig, ax = plt.subplots(1,1)
+# ax.scatter(datingMat[:,1], datingMat[:,2],)
+# plt.show()
+
+#########################################################################################
+
+def getOrder(labels):
+    orderLists = list(set(labels)) ## set: 중복 데이터 제거, list: 재구성
+    indexLists = []
+    for item in labels:
+        indexLists.append(orderLists.index(item) + 1)
+    return indexLists
+dataingLabelColor = getOrder(datingLabels)
+
+fig, ax = plt.subplots(1,1)
+ax.scatter(datingMat[:,0], datingMat[:,1],c=dataingLabelColor)
+#plt.show()
+
+#########################################################################################
+
+def autoNorm(dataSet):
+    minVals = dataSet.min(0)
+    maxVals = dataSet.max(0)
+    ranges = maxVals - minVals
+    normDataSet = zeros(shape(dataSet))
+    m = dataSet.shape[0]
+    normDataSet = dataSet - tile(minVals, (m,1))
+    normDataSet = normDataSet/tile(ranges, (m,1))   #element wise divide
+    return normDataSet, ranges, minVals
+
+datingMat, datingLabels = file2matrix_2("datingTestSet.txt")
+dataingLabelColor = getOrder(datingLabels)
+normDataSet, ranges, minVals = autoNorm(datingMat)
+
+hoRatio = 0.10
+datingMat, datingLabels = file2matrix_2("datingTestSet.txt")
+dataingLabelColor = getOrder(datingLabels)
+normMat, ranges, minVals = autoNorm(datingMat)
+
+m = normMat.shape[0]
+numTestVecs = int(m*hoRatio)
+errorCount=0.0
+for i in range(numTestVecs):
+    classifierResult = classify0(normMat[i,:],normMat[numTestVecs:m,:], datingLabels[numTestVecs:m], 11)
+    if(classifierResult!=datingLabels[i]):
+        errorCount += 1.0
+    
+def classifyPerson():
+    resultList = ['not at all', 'in small doses', 'in large doses']
+    percentTats = float(input(\
+                                  "percentage of time spent playing video games?"))
+    ffMiles = float(input("frequent flier miles earned per year?"))
+    iceCream = float(input("liters of ice cream consumed per year?"))
+    datingDataMat, datingLabels = file2matrix_2('datingTestSet2.txt')
+    normMat, ranges, minVals = autoNorm(datingDataMat)
+    inArr = array([ffMiles, percentTats, iceCream, ])
+    classifierResult = classify0((inArr - minVals)/ranges, normMat, datingLabels, 3)
+    print( "You will probably like this person: %s" % resultList[classifierResult - 1])
+
+#classifyPerson()
+
+#########################################################################################
+
+def img2vector(filename):
+    returnVect = zeros((1,1024))
+    fr = open(filename)
+    for i in range(32):
+        lineStr = fr.readline()
+        for j in range(32):
+            returnVect[0,32*i+j] = int(lineStr[j])
+    return returnVect
+
+print( img2vector("trainingDigits/0_0.txt"))
+
+#########################################################################################
+
+testFileList = os.listdir("trainingDigits")
+print(testFileList)
+
+for i in range(len(testFileList)):
+    fileName = testFileList[i]
+    print(fileName)
+
+for i in range(len(testFileList)):
+    fileStr = testFileList[i]
+    imgVector = img2vector("trainingDigits/%s" % fileStr)
+    print(fileStr, imgVector)
+
+imageMat = zeros((len(testFileList), 1024))
+imageLabel = []
+
+for i in range(len(testFileList)):
+    fileStr = testFileList[i]
+    imageMat[i, :] = img2vector("trainingDigits/%s" % fileStr)
+    fileNameStr = fileStr.split('.')[0]
+    classNumStr = int(fileNameStr.split('_')[0])
+    print(classNumStr)
 
 #########################################################################################
