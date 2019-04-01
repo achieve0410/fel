@@ -24,7 +24,7 @@ with open('driving_score_train9.csv') as f:
             train_data.append(data.split(","))
         line_counter = line_counter + 1
 
-## variable for count # of lines
+## reset variable
 line_counter = 0
 
 ## read data from csv file
