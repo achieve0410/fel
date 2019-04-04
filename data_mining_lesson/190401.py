@@ -86,7 +86,7 @@ def splitDataset(dataSet, axis, value):
             retDataSet.append(reducedFeatVec)
     return retDataSet
 
-splitdset = splitDataset(dset, 0, 1) ## 0번째 축의 value가 1인 경우, 1인 row를 뽑아낸 후 0번째 축 없애기
+splitdset = splitDataset(dset, 0, 1) ## 0번째 축의 value가 1인 경우, value가 1인 row를 뽑아낸 후 0번째 축 없애기
 print(splitdset)
 
 #######################################
