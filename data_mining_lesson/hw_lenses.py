@@ -3,8 +3,9 @@ from math import log
 import operator
 
 def file2matrix(filename):
-    fr = open(filename)
-    arrayOLines = fr.readlines()
+    f = open(filename)
+    arrayOLines = f.readlines()
+    f.close()
     returnMat = []
     index = 0
     for line in arrayOLines:
