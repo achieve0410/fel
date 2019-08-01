@@ -1,6 +1,7 @@
 import csv
 import math
 import random
+from matplotlib import pyplot as plt
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 
@@ -12,12 +13,8 @@ def load_csv(filepath):
     line_count = 0
     with open(filepath, encoding="UTF-8") as csvfile:
         reader = csv.reader(csvfile, delimiter=',')
-        
         for row in reader:
-            if line_count == 0: 
-                line_count += 1
-                continue
-            else: data.append(row)
+            data.append(row)
     return data
 
 def separate_data(myData, randNumList):
@@ -71,43 +68,69 @@ def generateRandomNum(data, num):
 
     return myList
 
-temp_data = load_csv("paper_data.csv")
-numberOfTest = 110
+temp_data = load_csv("syn_data/500/syn_data_1.csv")
+resultArr = []
 
-result = []
-for i in range(10):
-    randNumList = generateRandomNum(temp_data, numberOfTest)
+for rep in range(1, 51, 1):
+    numberOfTest = 10*rep
 
-    x_train, y_train, x_test, y_test = separate_data(temp_data, randNumList)
+    result = []
+    for i in range(10):
+        randNumList = generateRandomNum(temp_data, numberOfTest)
 
-    # print(x_train, y_train, x_test, y_test)
+        x_train, y_train, x_test, y_test = separate_data(temp_data, randNumList)
 
-    pred = np.zeros( [len(temp_data), 1] )
-    loss = np.zeros( [len(temp_data), 1] )
+        # print(x_train, y_train, x_test, y_test)
 
-    ## reshape datasets
-    # np.reshape(x_train, (-1, 1))
-    # np.reshape(y_train, (-1, 1))
+        pred = np.zeros( [len(temp_data), 1] )
+        loss = np.zeros( [len(temp_data), 1] )
 
-    ## create RF model
-    model = RandomForestClassifier(criterion='entropy', n_estimators=10, n_jobs=2, random_state=1)
-    model.fit(x_train, y_train.ravel())
+        ## reshape datasets
+        # np.reshape(x_train, (-1, 1))
+        # np.reshape(y_train, (-1, 1))
 
-    ## predict n print the estimated values
-    y_pred = model.predict(x_test)
+        ## create RF model
+        model = RandomForestClassifier(criterion='entropy', n_estimators=10, n_jobs=2, random_state=1)
+        model.fit(x_train, y_train.ravel())
 
-    ## calculate RMSE
-    line_count = 0
-    while 1:
-        data = x_test
-        if len(data)<=line_count: break
+        ## predict n print the estimated values
+        y_pred = model.predict(x_test)
 
-        print("y_test, y_pred : ", y_test[line_count][0], y_pred[line_count])
+        ## calculate RMSE
+        line_count = 0
+        while 1:
+            data = x_test
+            if len(data)<=line_count: break
 
-        loss[line_count][0] = abs( y_test[line_count][0]-y_pred[line_count] )
-        line_count += 1
+            print("y_test, y_pred : ", y_test[line_count][0], y_pred[line_count])
 
-    RMSE = math.sqrt( sum( pow(loss, 2) ) / len(y_test) )
-    result.append(RMSE)
-print("RMSE : ", result)
-print("AVG RMSE: ", sum(result)/10)
+            loss[line_count][0] = abs( y_test[line_count][0]-y_pred[line_count] )
+            line_count += 1
+
+        RMSE = math.sqrt( sum( pow(loss, 2) ) / len(y_test) )
+        result.append(RMSE)
+    # print("RMSE : ", result)
+    print("AVG RMSE: ", sum(result)/10)
+    resultArr.append(sum(result)/10)
+
+print(resultArr)
+
+## after visualization
+####################################################################################################
+# x_axis = {}
+# y_axis = []
+x_result = list(range(10, 501, 10))
+y_result = resultArr
+
+fig = plt.figure()
+ax = fig.add_subplot(1,1,1)
+# ax.set_xticks(list(range(1, 51, 1)))
+# ax.set_yticks(list(range(0, max(y_result)+5, 5)))
+plt.plot(x_result, y_result, color = 'k')
+plt.bar(x_result, y_result, color = 'y')
+plt.xlabel("Scale of Result")
+plt.ylabel("Frequency")
+plt.title("Data distribution")
+plt.show()
+
+####################################################################################################

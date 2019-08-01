@@ -20,7 +20,7 @@ y_axis = []
 x_result = []
 y_result = []
 
-data = load_csv("paper_data.csv")
+data = load_csv("syn_data/syn_data_4.csv")
 
 for result in data:
     y_axis.append(float(result[-1]))
