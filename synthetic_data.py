@@ -85,7 +85,7 @@ temp_data = load_csv("modified_data.csv")
 
 
 ## generate random data
-genNum = 10000
+genNum = 200000
 for i in range(genNum):
     mylist = generateSyntheticData_2(temp_data)
     syn_data.append(mylist)

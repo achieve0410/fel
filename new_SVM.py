@@ -53,13 +53,16 @@ def generateRandomNum(data, num):
 
     return myList
 
-train_data = load_csv("syn_data/10000/syn_data_1.csv")
+# train_data = load_csv("syn_data/50000/syn_data_1.csv")
 test_data = load_csv("modified_data.csv")
 
+numOfTrain = [10000, 20000, 50000, 100000, 200000]
 result = []
 
-for i in range(1):
-    # randNumList = generateRandomNum(temp_data, numberOfTest)
+for i in numOfTrain:
+    
+    trainName = "syn_data/data_" + str(i) + ".csv"
+    train_data = load_csv(trainName)
 
     x_train, y_train = separate_data(train_data)
     x_test, y_test = separate_data(test_data)
@@ -100,7 +103,7 @@ for i in range(1):
 ####################################################################################################
 # x_axis = {}
 # y_axis = []
-x_result = list(range(1, 2, 1))
+x_result = numOfTrain
 print(x_result)
 y_result = result
 print(y_result)
